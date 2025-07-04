@@ -1,0 +1,55 @@
+**/core*
+CMakeLists.txt.user*
+CMakeUserPresets.json
+build*/
+debug/
+qtbuild/*
+sdriq/*
+presets/*
+LOCAL/*
+.cproject
+.flatpak-builder/
+.project
+.pydevproject
+.vscode/
+.settings/
+*.cs
+*.orig
+*.pro.user
+*.rej
+.idea/*
+rescuesdriq/rescuesdriq
+debian/sdrangel/*
+debian/sdrangel.substvars
+debian/files
+debian/sdrangel.debhelper.log
+debian/debhelper-build-stamp
+obj-x86_64-linux-gnu/*
+**/venv*/
+*.pyc
+.DS_Store
+.sonarlint
+
+### Go ###
+# Binaries for programs and plugins
+/rescuesdriq/*.exe
+/rescuesdriq/*.exe~
+/rescuesdriq/*.dll
+/rescuesdriq/*.so
+/rescuesdriq/*.dylib
+
+# Test binary, built with `go test -c`
+/rescuesdriq/*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+/rescuesdriq/*.out
+
+/rescuesdriq/vendor/
+/rescuesdriq/Godeps/
+/.vs
+
+# WDSP
+wdsp/*.o
+wdsp/*.h
+wdsp/*.c
+wdsp/Makefile
