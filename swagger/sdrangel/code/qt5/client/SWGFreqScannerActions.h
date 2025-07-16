@@ -26,6 +26,8 @@
 #include "SWGObject.h"
 #include "export.h"
 
+#include "SWGFreqScannerFrequencyModification.h"
+
 namespace SWGSDRangel {
 
 class SWG_API SWGFreqScannerActions: public SWGObject {
@@ -50,6 +52,10 @@ public:
 	bool runIsSet();
     bool clearHitsIsSet();
 
+    SWGFreqScannerFrequencyModification* getModifyFrequency();
+    void setModifyFrequency(SWGFreqScannerFrequencyModification* modify_frequency);
+    bool modifyFrequencyIsSet();
+
     virtual bool isSet() override;
 
 private:
@@ -57,7 +63,8 @@ private:
     bool m_run_isSet;
 	qint32 clear_hits;
     bool m_clear_hits_isSet;
-
+    SWGFreqScannerFrequencyModification* modify_frequency;
+    bool m_modify_frequency_isSet;
 };
 
 }

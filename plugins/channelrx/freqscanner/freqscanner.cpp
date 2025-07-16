@@ -32,6 +32,7 @@
 #include "SWGFreqScannerSettings.h"
 #include "SWGChannelReport.h"
 #include "SWGChannelActions.h"
+#include "SWGFreqScannerActions.h" 
 
 #include "device/deviceset.h"
 #include "dsp/dspengine.h"
@@ -57,6 +58,7 @@ MESSAGE_CLASS_DEFINITION(FreqScanner::MsgReportScanning, Message)
 MESSAGE_CLASS_DEFINITION(FreqScanner::MsgReportScanRange, Message)
 MESSAGE_CLASS_DEFINITION(FreqScanner::MsgClearHits, Message)
 MESSAGE_CLASS_DEFINITION(FreqScanner::MsgClearHitsReport, Message)
+MESSAGE_CLASS_DEFINITION(FreqScanner::MsgModifyFrequency, Message) // <-- ДОДАЙТЕ ЦЕЙ РЯДОК
 
 const char * const FreqScanner::m_channelIdURI = "sdrangel.channel.freqscanner";
 const char * const FreqScanner::m_channelId = "FreqScanner";
@@ -271,6 +273,22 @@ bool FreqScanner::handleMessage(const Message& cmd)
         }
         return true;
     }
+    else if (MsgModifyFrequency::match(cmd))
+    {
+        const MsgModifyFrequency& mod = (const MsgModifyFrequency&) cmd;
+        for (auto& freqSetting : m_settings.m_frequencySettings) {
+            if (freqSetting.m_frequency == mod.getFrequency()) {
+                freqSetting.m_enabled = mod.isEnabled();
+                break; // Знайшли і змінили, виходимо з циклу
+            }
+        }
+        // Повідомляємо GUI про зміну налаштувань
+        if (m_guiMessageQueue) {
+            m_guiMessageQueue->push(MsgConfigureFreqScanner::create(m_settings, {"frequencySettings"}, false));
+        }
+        return true;
+    }
+
     else
     {
         return false;
@@ -935,6 +953,15 @@ int FreqScanner::webapiActionsPost(
             if (swgFreqScannerActions->getClearHits() != 0) {
                 MsgClearHits *clear = MsgClearHits::create();
                 getInputMessageQueue()->push(clear);
+            }
+        }
+
+        if (swgFreqScannerActions->modifyFrequencyIsSet())
+        {
+            SWGFreqScannerFrequencyModification* mod = swgFreqScannerActions->getModifyFrequency();
+            if (mod && mod->isSet()) {
+                MsgModifyFrequency *msg = MsgModifyFrequency::create(mod->getFrequency(), mod->getEnabled() != 0);
+                getInputMessageQueue()->push(msg);
             }
         }
 

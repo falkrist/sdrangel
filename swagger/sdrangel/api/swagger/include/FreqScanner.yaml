@@ -13,7 +13,7 @@ FreqScannerSettings:
     frequencies:
       type: array
       items:
-        $ref: "http://swgserver:8081/api/swagger/include/FreqScanner.yaml#/FreqScannerFrequency"
+        $ref: "#/FreqScannerFrequency"
     channel:
       type: string
     scanTime:
@@ -65,7 +65,7 @@ FreqScannerReport:
     channelState:
       type: array
       items:
-        $ref: "http://swgserver:8081/api/swagger/include/FreqScanner.yaml#/FreqScannerChannelState"
+        $ref: "#/FreqScannerChannelState"
 
 FreqScannerChannelState:
   properties:
@@ -76,9 +76,9 @@ FreqScannerChannelState:
       description: "Channel power in dB"
       type: number
       format: float
-    activeCount: 
+    activeCount:
       description: "Number of times the frequency has been detected above the threshold"
-      type: integer  
+      type: integer
 
 FreqScannerFrequency:
   properties:
@@ -110,3 +110,13 @@ FreqScannerActions:
     clearHits:
       type: integer
       description: "Clear the hit counters (set to 1 to activate)"
+    modifyFrequency:
+      $ref: "#/FreqScannerFrequencyModification"
+
+FreqScannerFrequencyModification:
+  properties:
+    frequency:
+      type: integer
+      format: int64
+    enabled:
+      type: integer

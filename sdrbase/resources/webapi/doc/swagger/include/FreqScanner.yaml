@@ -13,7 +13,7 @@ FreqScannerSettings:
     frequencies:
       type: array
       items:
-        $ref: "/doc/swagger/include/FreqScanner.yaml#/FreqScannerFrequency"
+        $ref: "#/FreqScannerFrequency"
     channel:
       type: string
     scanTime:
@@ -50,9 +50,9 @@ FreqScannerSettings:
     reverseAPIChannelIndex:
       type: integer
     channelMarker:
-      $ref: "/doc/swagger/include/ChannelMarker.yaml#/ChannelMarker"
+      $ref: "http://swgserver:8081/api/swagger/include/ChannelMarker.yaml#/ChannelMarker"
     rollupState:
-      $ref: "/doc/swagger/include/RollupState.yaml#/RollupState"
+      $ref: "http://swgserver:8081/api/swagger/include/RollupState.yaml#/RollupState"
 
 FreqScannerReport:
   description: FreqScanner
@@ -65,7 +65,7 @@ FreqScannerReport:
     channelState:
       type: array
       items:
-        $ref: "/doc/swagger/include/FreqScanner.yaml#/FreqScannerChannelState"
+        $ref: "#/FreqScannerChannelState"
 
 FreqScannerChannelState:
   properties:
@@ -76,10 +76,10 @@ FreqScannerChannelState:
       description: "Channel power in dB"
       type: number
       format: float
-    activeCount: 
+    activeCount:
       description: "Number of times the frequency has been detected above the threshold"
-      type: integer  
-      
+      type: integer
+
 FreqScannerFrequency:
   properties:
     frequency:
@@ -107,3 +107,16 @@ FreqScannerActions:
         Set the plugin running state
           * 0 - idle
           * 1 - run
+    clearHits:
+      type: integer
+      description: "Clear the hit counters (set to 1 to activate)"
+    modifyFrequency:
+      $ref: "#/FreqScannerFrequencyModification"
+
+FreqScannerFrequencyModification:
+  properties:
+    frequency:
+      type: integer
+      format: int64
+    enabled:
+      type: integer

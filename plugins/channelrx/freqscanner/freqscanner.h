@@ -32,7 +32,13 @@
 #include "freqscannerbaseband.h"
 #include "freqscannersettings.h"
 
-#include "SWGChannelSettings.h"
+namespace SWGSDRangel {
+    class SWGChannelSettings;
+    class SWGWorkspaceInfo;
+    class SWGChannelReport;
+    class SWGChannelActions;
+    class SWGFreqScannerFrequency;
+}
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -317,6 +323,20 @@ public:
             m_fftSize(fftSize)
         {
         }
+    };
+
+    class MsgModifyFrequency : public Message {
+        MESSAGE_CLASS_DECLARATION
+    public:
+        static MsgModifyFrequency* create(qint64 frequency, bool enabled) {
+            return new MsgModifyFrequency(frequency, enabled);
+        }
+        qint64 getFrequency() const { return m_frequency; }
+        bool isEnabled() const { return m_enabled; }
+    private:
+        MsgModifyFrequency(qint64 frequency, bool enabled) : Message(), m_frequency(frequency), m_enabled(enabled) {}
+        qint64 m_frequency;
+        bool m_enabled;
     };
 
     FreqScanner(DeviceAPI *deviceAPI);
