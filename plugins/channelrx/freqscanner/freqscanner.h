@@ -32,14 +32,6 @@
 #include "freqscannerbaseband.h"
 #include "freqscannersettings.h"
 
-namespace SWGSDRangel {
-    class SWGChannelSettings;
-    class SWGWorkspaceInfo;
-    class SWGChannelReport;
-    class SWGChannelActions;
-    class SWGFreqScannerFrequency;
-}
-
 class QNetworkAccessManager;
 class QNetworkReply;
 class QThread;
@@ -475,8 +467,6 @@ private:
     void processScanResults(const QDateTime& fftStartTime, const QList<MsgScanResult::ScanResult>& results);
     void setDeviceCenterFrequency(qint64 frequency);
     void applyChannelSetting(const QString& channel);
-
-    static QList<SWGSDRangel::SWGFreqScannerFrequency *> *createFrequencyList(const FreqScannerSettings& settings);
 
 private slots:
     void networkManagerFinished(QNetworkReply *reply);

@@ -18,6 +18,7 @@ set(freqscanner_HEADERS
     freqscannerwebapiadapter.h
 )
 
+# Цей include важливий, щоб компілятор знайшов .h файли
 include_directories(
     ${CMAKE_SOURCE_DIR}/swagger/sdrangel/code/qt5/client
 )
@@ -48,7 +49,7 @@ else()
 endif()
 
 if(NOT Qt6_FOUND)
-    add_library(${TARGET_NAME} ${freqscanner_SOURCES})
+    add_library(${TARGET_NAME} MODULE ${freqscanner_SOURCES})
 else()
     qt_add_plugin(${TARGET_NAME} CLASS_NAME FreqScannerPlugin ${freqscanner_SOURCES})
 endif()
@@ -57,12 +58,29 @@ if(NOT BUILD_SHARED_LIBS)
     set_property(GLOBAL APPEND PROPERTY STATIC_PLUGINS_PROPERTY ${TARGET_NAME})
 endif()
 
-target_link_libraries(${TARGET_NAME} PRIVATE
-    Qt::Core
-    ${TARGET_LIB}
-    sdrbase
-    ${TARGET_LIB_GUI}
-)
+# ▼▼▼ ОСНОВНЕ ВИПРАВЛЕННЯ ТУТ ▼▼▼
+# Ми явно вказуємо, що наш плагін залежить від бібліотеки swagger
+if(NOT SERVER_MODE)
+    target_link_libraries(${TARGET_NAME} PRIVATE
+        Qt::Core
+        Qt::Gui
+        ${TARGET_LIB}
+        sdrbase
+        ${TARGET_LIB_GUI}
+        httpserver
+        qrtplib
+        swagger
+    )
+else()
+    target_link_libraries(${TARGET_NAME} PRIVATE
+        Qt::Core
+        sdrbase
+        httpserver
+        qrtplib
+        swagger
+    )
+endif()
+# ▲▲▲ КІНЕЦЬ ВИПРАВЛЕННЯ ▲▲▲
 
 install(TARGETS ${TARGET_NAME} DESTINATION ${INSTALL_FOLDER})
 
