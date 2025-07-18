@@ -18,7 +18,7 @@ set(freqscanner_HEADERS
     freqscannerwebapiadapter.h
 )
 
-# Цей include важливий, щоб компілятор знайшов .h файли
+# Цей рядок каже компілятору, де шукати .h файли для SWG класів
 include_directories(
     ${CMAKE_SOURCE_DIR}/swagger/sdrangel/code/qt5/client
 )

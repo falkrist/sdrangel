@@ -4,10 +4,11 @@
 #include "SWGObject.h"
 #include <QString>
 #include <QJsonObject> 
+#include "export.h"
 
 namespace SWGSDRangel {
 
-class SWGFreqScannerFrequencyModification: public SWGObject {
+class SWG_API SWGFreqScannerFrequencyModification: public SWGObject {
 public:
     SWGFreqScannerFrequencyModification();
     virtual ~SWGFreqScannerFrequencyModification();
@@ -18,6 +19,8 @@ public:
     QJsonObject* asJsonObject() override;
     void fromJsonObject(QJsonObject &json) override;
 
+    SWGFreqScannerFrequencyModification* fromJson(QString &jsonString);
+    
     qint64 getFrequency();
     void setFrequency(qint64 frequency);
 
